@@ -209,6 +209,14 @@ export default function App() {
                 controlsList="nodownload"
                 className="w-full h-full object-contain max-w-full max-h-full"
                 src={herVideo}
+                onEnded={() => {
+                  if (!isSoundMuted) {
+                    playYay();
+                  }
+                  setTimeout(() => {
+                    setScreenState(ScreenState.REQUEST);
+                  }, 1000);
+                }}
               />
             </motion.div>
           )}
