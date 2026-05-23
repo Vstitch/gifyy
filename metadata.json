@@ -1,0 +1,6 @@
+{
+  "name": "Playful Gift Reveal",
+  "description": "A highly interactive, cute, meme-inspired single-page website with playful animations and emotional storytelling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
