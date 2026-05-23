@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Volume2, 
-  VolumeX, 
-  Settings, 
-  Sparkles, 
+import {
+  Volume2,
+  VolumeX,
+  Settings,
+  Sparkles,
   Heart,
   HelpCircle,
   ExternalLink
@@ -22,6 +22,7 @@ import Customizer from './components/Customizer';
 import { playBoop, playYay } from './utils/audio';
 import { DEFAULT_SETTINGS, decodeSettings } from './utils/url';
 import { getColorTheme } from './utils/theme';
+import herVideo from './assets/hervideo.mp4';
 
 export default function App() {
   const [screenState, setScreenState] = useState<ScreenState>(ScreenState.REQUEST);
@@ -34,14 +35,14 @@ export default function App() {
     const parseHashSettings = () => {
       const hash = window.location.hash;
       if (!hash) return;
-      
+
       let base64Data = '';
       if (hash.startsWith('#g=')) {
         base64Data = hash.slice(3);
       } else if (hash.startsWith('#settings=')) {
         base64Data = hash.slice(10);
       }
-      
+
       if (base64Data) {
         const decoded = decodeSettings(base64Data);
         if (decoded) {
@@ -81,28 +82,28 @@ export default function App() {
   const themeStyles = getColorTheme(settings.colorTheme);
 
   return (
-    <div 
-      className={`min-h-screen bg-[#FFF9F5]/70 bg-gradient-to-tr ${themeStyles.background} relative flex flex-col items-center justify-between p-4 px-6 overflow-x-hidden md:py-8 select-none transition-all duration-700 font-sans`}
+    <div
+      className={`min-h-screen bg-[#FFF9F5]/70 bg-gradient-to-tr ${themeStyles.background} relative flex flex-col items-center justify-between p-3 sm:p-4 sm:px-6 overflow-x-hidden md:py-8 select-none transition-all duration-700 font-sans`}
       style={{ contentVisibility: 'auto' }}
     >
       {/* Background Mesh Gradient */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-pink-100/40 rounded-full filter blur-[100px] animate-[pulse_10s_infinite]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-100/40 rounded-full filter blur-[100px] animate-[pulse_12s_infinite]" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-pink-100/40 rounded-full filter blur-[60px] sm:blur-[100px] animate-[pulse_10s_infinite]" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-blue-100/40 rounded-full filter blur-[60px] sm:blur-[100px] animate-[pulse_12s_infinite]" />
       </div>
 
       {/* Floating Control Headers (Top Bar) */}
-      <div className="w-full max-w-5xl flex items-center justify-between z-30 sticky top-2 py-2">
+      <div className="w-full max-w-5xl flex items-center justify-between z-30 sticky top-2 py-2 px-2 sm:px-0">
         {/* Logo / Link Brand */}
-        <div 
+        <div
           onClick={() => { playBoop(); setScreenState(ScreenState.REQUEST); }}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white/80 hover:bg-white/95 backdrop-blur-md border border-slate-100 cursor-pointer shadow-xs transition-all active:scale-95"
+          className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-2xl bg-white/80 hover:bg-white/95 backdrop-blur-md border border-slate-100 cursor-pointer shadow-xs transition-all active:scale-95"
           id="brand-logo-badge"
         >
-          <div className="w-6 h-6 bg-pink-400 rounded-full flex items-center justify-center shadow-xs">
+          <div className="w-5 h-5 sm:w-6 sm:h-6 bg-pink-400 rounded-full flex items-center justify-center shadow-xs">
             <span className="text-white font-black text-xs text-center leading-none">🐶</span>
           </div>
-          <span className="text-sm font-black text-slate-800 tracking-tight font-rounded">puppy.gift</span>
+          <span className="text-xs sm:text-sm font-black text-slate-800 tracking-tight font-rounded">puppy.gift</span>
         </div>
 
         {/* Action controls */}
@@ -185,8 +186,29 @@ export default function App() {
             >
               <VideoScreen
                 settings={settings}
-                onNext={() => setScreenState(ScreenState.STORY)}
+                onNext={() => setScreenState(ScreenState.HER_VIDEO)}
                 isSoundMuted={isSoundMuted}
+              />
+            </motion.div>
+          )}
+
+          {screenState === ScreenState.HER_VIDEO && (
+            <motion.div
+              key="her-video-screen"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-black z-50"
+            >
+              <video
+                autoPlay
+                muted={isSoundMuted}
+                playsInline
+                controls
+                controlsList="nodownload"
+                className="w-full h-full object-contain max-w-full max-h-full"
+                src={herVideo}
               />
             </motion.div>
           )}
@@ -229,8 +251,8 @@ export default function App() {
       </main>
 
       {/* Footer Branding Credit (Unobtrusive & Clean) */}
-      <footer className="w-full max-w-2xl text-center py-2 z-10">
-        <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-bold text-gray-400 font-sans tracking-wide">
+      <footer className="w-full max-w-2xl text-center py-2 z-10 px-4">
+        <div className="inline-flex items-center justify-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] font-bold text-gray-400 font-sans tracking-wide break-all">
           <span>{settings.senderName} ❤️ {settings.receiverName}</span>
         </div>
       </footer>

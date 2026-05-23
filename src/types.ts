@@ -8,6 +8,7 @@ export enum ScreenState {
   REJECTED = 'REJECTED',
   ACCEPTED = 'ACCEPTED',
   VIDEO = 'VIDEO',
+  HER_VIDEO = 'HER_VIDEO',
   STORY = 'STORY',
   REVEALED = 'REVEALED',
 }
